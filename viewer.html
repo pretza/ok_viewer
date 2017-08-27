@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<head>
+    <!--This program is free software; you can redistribute it and/or modify it under the BSD License 2.0 -->
+    <title>OK Viewer</title>
+    <style>
+        body {
+            background-color: #101020;
+            font-size: 100%
+        }
+
+        div {
+            display: inline-block;
+        }
+
+        img {
+            color: #FFFFFF;
+        }
+
+        header {
+            height: 3vh;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #main_nav {
+            position: absolute;
+            /*white-space: nowrap;*/
+            height: 3vh;
+            /*display: flex;*/
+            cursor: pointer;
+        }
+
+        .nav_d {
+            font-size: 0.9em;
+            display: inline-block;
+            margin: auto;
+            vertical-align: top;
+            text-align: center;
+            width: 13em;
+        }
+
+        .nav_catalog {
+            background-color: #9090a0;
+            top: 0.2em;
+            margin: 0.3em;
+        }
+
+        .nav_items_off {
+            display: none;
+        }
+
+        .nav_items_on {
+            display: block;
+        }
+
+        .nav_item {
+            display: block;
+            background-color: #dddde0;
+            height: 1.1em;
+            border: 1px #cccccc solid;
+            opacity: 0.9;
+        }
+
+        #main {
+            width: 100%;
+            display: flex;
+        }
+
+        #main_frame {
+            width: 63%;
+            height: 75vh;
+            margin: 1.5vh 1em;
+        }
+
+        #main_image_hoader {
+            background-color: #000020;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+        }
+
+        .main_image_hoader_scroll_on {
+            overflow: scroll;
+        }
+
+        .main_image_scroll_on {
+            margin: auto;
+            max-width: 99%;
+        }
+
+        .main_image_scroll_off {
+            margin: auto;
+            max-width: 99%;
+            max-height: 99%;
+        }
+
+        #img_seletor_hoader {
+            align-items: center;
+            width: 62%;
+            margin: 0.2em 0em 0.2em 1em;
+        }
+
+        .img_selector_off {
+            display: none;
+        }
+
+        .img_selector_on {
+            display: inline-flex;
+        }
+
+        #img_seletor {
+            height: 7em;
+            margin: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
+
+        .img_seletor_pic_hoader {
+            position: unset;
+            display: inline-flex;
+            min-width: 3.5em;
+            background-color: #000800;
+            height: 100%;
+        }
+
+        .img_selection {
+            max-width: 100%;
+            max-height: 100%;
+            padding: 0 0.15em;
+            margin: auto;
+        }
+
+        #main_description {
+            float: right;
+            width: 33%;
+            padding: 1%;
+            background-color: #ececce;
+            margin: 1.5vh 1em;
+            text-align: justify-all;
+            overflow-wrap: break-word;
+        }
+
+        #title {
+            display: block;
+            max-width: 100%;
+            font-size: 0.8em;
+            text-align: center;
+            overflow: hidden;
+            height: 3vh;
+        }
+
+        #note {
+            height: 70vh;
+            display: block;
+            overflow: scroll;
+        }
+
+        #button_bar {
+            float: right;
+            width: 32%;
+            margin: 2%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button {
+            font-size: 2em;
+            color: #ffffff;
+            padding: 0 10%;
+            background-color: #769ac5;
+            border: white solid 0.1em;
+            border-radius: 0.3em;
+            cursor: pointer;
+        }
+
+        #sec {
+            display: none
+        }
+    </style>
+    <script src="gallery.js" onload="loaded=1"></script>
+    <script>
+        if(typeof loaded === 'undefined'){
+            alert('gallery.js not found, please place it in the same directory as this page')}
+        photos = []
+        note = ""
+        position = gallery.length - 1;
+        function set_main_img(photo) {
+            document.getElementById('main_image').src = photo[0];
+            document.getElementById('main_image').alt = photo[0].match(/\/([^\/]+)\./)[1]
+            document.getElementById('title').innerHTML = photo[0]
+            if (photo[1]) {
+                main_scroll_on()
+            } else {
+                main_scroll_off()
+            }
+        }
+        function next_page() {
+            genpage_n(position + 1)
+        }
+        function prev_page() {
+            genpage_n(position - 1)
+
+        }
+        function main_scroll_on() {
+            document.getElementById('main_image_hoader').classList.add('main_image_hoader_scroll_on');
+            document.getElementById('main_image').classList.add('main_image_scroll_on')
+            document.getElementById('main_image').classList.remove('main_image_scroll_off')
+
+        }
+        function main_scroll_off() {
+            document.getElementById('main_image_hoader').classList.remove('main_image_hoader_scroll_on');
+            document.getElementById('main_image').classList.remove('main_image_scroll_on')
+            document.getElementById('main_image').classList.add('main_image_scroll_off')
+        }
+        function genpage() {
+            set_main_img(photos[0])
+            if (photos.length == 1) {
+                document.getElementById('img_seletor_hoader').classList.add('img_selector_off');
+                document.getElementById('img_seletor_hoader').classList.remove('img_selector_on');
+                document.getElementById('note').innerHTML = note;
+                return
+            }
+            document.getElementById('img_seletor_hoader').classList.remove('img_selector_off');
+            document.getElementById('img_seletor_hoader').classList.add('img_selector_on');
+            img_seletor = document.getElementById('img_seletor');
+            img_seletor.innerHTML = ''
+            for (photo in photos) {
+                img_seletor.innerHTML += `<div class="img_seletor_pic_hoader" onclick="set_main_img(photos[${photo}])"><img src="${photos[photo][0]}" alt = "${photos[photo][0].match(/\/([^\/]+)$/)[1]}" class = "img_selection"></div>`
+            }
+            document.getElementById('note').innerHTML = note;
+        }
+        function genpage_n(n) {
+            position = n;
+            if (position < 0) {
+                position = gallery.length - 1;
+            }
+            if (position >= gallery.length) {
+                position = 0
+            }
+            note = gallery[position][0];
+            photos = gallery[position][1]
+            genpage()
+        }
+
+        function on(el) {
+            el.children[1].classList.remove('nav_items_off')
+            el.children[1].classList.add('nav_items_on')
+        }
+        function off(el) {
+            el.children[1].classList.add('nav_items_off')
+            el.children[1].classList.remove('nav_items_on')
+
+        }
+
+        window.addEventListener("load", function(event) {
+            gallery[78][1][0][0] = document.getElementById('sec').innerHTML;
+            document.getElementById('header').innerHTML = header;
+            genpage_n(position)
+
+        });
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    <div id="main">
+        <div id="main_frame">
+            <div id="main_image_hoader" class="main_image_hoader_scroll_on">
+                <img src="" alt="main_image" id="main_image" class="main_image_scroll_off">
+            </div>
+        </div>
+        <div id="main_description">
+            <div id="title"></div>
+            <div id="note"></div>
+        </div>
+    </div>
+    <div id="img_seletor_hoader">
+        <div id="img_seletor"></div>
+    </div>
+    <div id="button_bar">
+        <div class=button onclick="prev_page()">prev</div>
+        <div class=button onclick="next_page()">next</div>
+    </div>
+    <p id=sec>I am Resin/Resin J &#216;/resin-j0.jpg</p>
+</body>
+</html>
