@@ -260,6 +260,9 @@
 
         window.addEventListener("load", function(event) {
             gallery[77][1][0][0] = document.getElementById('sec').innerHTML;
+            if(navigator.platform.match(/win/i)){
+                gallery.map(function(x){x[1].map(function(y){y[0]=y[0].replace('Animus Solo : Loss of Soul','Animus Solo _ Loss of Soul')})})
+        }
             document.getElementById('header').innerHTML = header;
             genpage_n(position)
 
