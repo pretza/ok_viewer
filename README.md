@@ -1,5 +1,5 @@
 # ok_viewer
-a UI interface for #BEOKAY
+a GUI for #BEOKAY
 
 You will need the original #BEOKAY files to use this program.
 
