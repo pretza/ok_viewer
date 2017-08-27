@@ -185,8 +185,10 @@
     </style>
     <script src="gallery.js" onload="loaded=1"></script>
     <script>
-        if(typeof loaded === 'undefined'){
-            alert('gallery.js not found, please place it in the same directory as this page')}
+        if (typeof loaded === 'undefined') {
+            alert('gallery.js not found, please place it in the same directory as this page')
+        }
+
         photos = []
         note = ""
         position = gallery.length - 1;
@@ -259,7 +261,7 @@
         }
 
         window.addEventListener("load", function(event) {
-            gallery[78][1][0][0] = document.getElementById('sec').innerHTML;
+            gallery[77][1][0][0] = document.getElementById('sec').innerHTML;
             document.getElementById('header').innerHTML = header;
             genpage_n(position)
 
@@ -271,7 +273,7 @@
     <div id="main">
         <div id="main_frame">
             <div id="main_image_hoader" class="main_image_hoader_scroll_on">
-                <img src="" alt="main_image" id="main_image" class="main_image_scroll_off">
+                <img src="00 READ ME/300x90-ad.jpg" alt="main_image" id="main_image" class="main_image_scroll_off">
             </div>
         </div>
         <div id="main_description">
@@ -286,6 +288,6 @@
         <div class=button onclick="prev_page()">prev</div>
         <div class=button onclick="next_page()">next</div>
     </div>
-    <p id=sec>I am Resin/Resin J &#216;/resin-j0.jpg</p>
+    <p id=sec>I am Resin/Resin J&#216;/resin-j0.jpg</p>
 </body>
 </html>
